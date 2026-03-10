@@ -2,6 +2,8 @@
 
 Pick a License is a small static web app for narrowing down open source licenses by the rights, obligations, and limitations you want.
 
+You can use it at [https://nebupookins.github.io/pick-a-license/](https://nebupookins.github.io/pick-a-license/).
+
 It uses metadata derived from [choosealicense.com](https://choosealicense.com/) and presents that data as:
 
 - filterable criteria such as commercial use, patent use, warranty, and disclosure requirements
