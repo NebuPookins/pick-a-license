@@ -1,5 +1,5 @@
 window.APP_DATA = {
-  "generatedAt": "2026-03-10T05:24:54.157Z",
+  "generatedAt": "2026-03-12T19:11:27.349Z",
   "source": "https://github.com/github/choosealicense.com",
   "rules": {
     "permissions": [
