@@ -2,7 +2,7 @@ name: Refresh License Data
 
 on:
   schedule:
-    - cron: "17 * * * *"
+    - cron: "17 3 * * *"
   workflow_dispatch:
 
 permissions:
@@ -33,7 +33,26 @@ jobs:
       - name: Detect changes
         id: changes
         run: |
-          if git diff --quiet -- data.js; then
+          if node <<'EOF'
+          const fs = require("fs");
+          const { execFileSync } = require("child_process");
+
+          function extractPayload(source) {
+            return source.replace(/^window\.APP_DATA = /, "").replace(/;\s*$/, "");
+          }
+
+          function normalize(source) {
+            const payload = JSON.parse(extractPayload(source));
+            delete payload.generatedAt;
+            return JSON.stringify(payload);
+          }
+
+          const current = normalize(fs.readFileSync("data.js", "utf8"));
+          const previous = normalize(execFileSync("git", ["show", "HEAD:data.js"], { encoding: "utf8" }));
+
+          process.exit(current === previous ? 0 : 1);
+          EOF
+          then
             echo "has_changes=false" >> "$GITHUB_OUTPUT"
           else
             echo "has_changes=true" >> "$GITHUB_OUTPUT"
